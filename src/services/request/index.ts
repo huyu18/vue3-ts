@@ -5,7 +5,7 @@ import { LoadingInstance } from 'element-plus/lib/components/loading/src/loading
 import { ElLoading } from 'element-plus'
 
 interface HYRequestInterceptors<T = AxiosResponse> {
-  requestInterceptor?: (config: AxiosRequestConfig) => AxiosRequestConfig
+  requestInterceptor?: (config: any) => AxiosRequestConfig
   requestInterceptorCatch?: (error: any) => any
   responseInterceptor?: (res: T) => T
   responseInterceptorCatch?: (error: any) => any
@@ -92,7 +92,7 @@ class HYRequest {
           if (config.interceptors?.responseInterceptor) {
             res = config.interceptors.responseInterceptor(res)
           }
-          console.log(res)
+          // console.log(res)
 
           // 下次请求前设置回初始值
           this.showLoading = DEFAULT_LOADING

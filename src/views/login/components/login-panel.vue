@@ -1,24 +1,24 @@
 <template>
   <div class="login-panel">
     <h1 class="title">后台管理系统</h1>
-    <el-tabs type="border-card" stretch>
-      <el-tab-pane>
+    <el-tabs type="border-card" stretch v-model="currentTab">
+      <el-tab-pane name="account">
         <template #label>
           <span class="custom-tabs-label">
-            <el-icon><avatar /></el-icon>
+            <el-icon class="icon"><avatar /></el-icon>
             <span>账号登录</span>
           </span>
         </template>
         <login-account ref="accountRef" />
       </el-tab-pane>
-      <el-tab-pane>
+      <el-tab-pane name="phone">
         <template #label>
           <span class="custom-tabs-label">
-            <el-icon><cellphone /></el-icon>
+            <el-icon class="icon"><cellphone /></el-icon>
             <span>手机登录</span>
           </span>
         </template>
-        <login-phone />
+        <login-phone ref="phoneRef" />
       </el-tab-pane>
     </el-tabs>
 
@@ -50,14 +50,22 @@ export default defineComponent({
   setup() {
     const isRememberPassword = ref(true)
     const accountRef = ref<InstanceType<typeof LoginAccount>>()
+    const phoneRef = ref<InstanceType<typeof LoginPhone>>()
+    const currentTab = ref('account')
 
     const handleLoginClick = () => {
-      accountRef.value?.loginAction()
+      if (currentTab.value === 'account') {
+        accountRef.value?.loginAction(isRememberPassword.value)
+      } else {
+        console.log('调用phoneRef的phoneLoginAction')
+      }
     }
 
     return {
       isRememberPassword,
       accountRef,
+      currentTab,
+      phoneRef,
       handleLoginClick
     }
   }
@@ -69,6 +77,14 @@ export default defineComponent({
   width: 320px;
   .title {
     text-align: center;
+  }
+  .icon {
+    margin-right: 5px;
+  }
+  .custom-tabs-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .account-verify {
     display: flex;
